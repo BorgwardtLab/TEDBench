@@ -31,6 +31,14 @@ reconstructs the full backbone structure with a lightweight decoder.
 
 ## Installation
 
+**From PyPI (recommended):**
+
+```bash
+pip install TEDBench
+```
+
+**From source** (for training, baselines, or development):
+
 ```bash
 # 1. Create and activate environment
 micromamba create -n tedbench python=3.10 -y
