@@ -220,3 +220,6 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# setuptools-scm generated version file
+tedbench/_version.py
