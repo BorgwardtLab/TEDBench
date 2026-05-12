@@ -5,7 +5,7 @@ together with **MiAE** (Masked Invariant Autoencoders), a self-supervised pretra
 framework for protein structure representations.
 
 > **Paper:** *Protein Fold Classification at Scale: Benchmarking and Pretraining*  
-> Dexiong Chen, Andrei Manolache, Mathias Niepert, Karsten Borgwardt (ICML 2026)
+> Dexiong Chen, Andrei Manolache, Mathias Niepert, Karsten Borgwardt (ICML 2026 spotlight)
 
 ---
 
