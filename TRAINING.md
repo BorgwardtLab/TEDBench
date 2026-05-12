@@ -209,19 +209,17 @@ Baseline scripts are in `baselines/`.  Each script has its own Hydra config unde
 `baselines/configs/`.
 
 ```bash
-cd baselines
-
 # ESM2 fine-tuning
-python esm2_finetune_ted.py
+python baselines/esm2_finetune_ted.py
 
 # ESM2 testing
-python esm2_test_ted.py train.ckpt_path=<path/to/best_model.ckpt>
+python baselines/esm2_test_ted.py train.ckpt_path=<path/to/best_model.ckpt>
 
 # SaProt fine-tuning
-python saprot_finetune_ted.py
+python baselines/saprot_finetune_ted.py
 
 # SaProt linear probing
-python saprot_linprobe_ted.py
+python baselines/saprot_linprobe_ted.py
 ```
 
 > **Note:** The SaProt baselines require [Foldseek](https://github.com/steineggerlab/foldseek)
