@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "TEDBench"
+authors = [
+    {name = "Dexiong Chen", email = "dchen@biochem.mpg.de"},
+]
+description = "TEDBench: Large-Scale Protein Fold Classification Benchmark and MiAE Pretraining"
+readme = "README.md"
+requires-python = ">=3.9"
+keywords = ["protein fold classification", "masked autoencoder", "protein structure", "geometric deep learning", "benchmark"]
+license = {text = "BSD-3-Clause"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dynamic = ["version"]
+
+[tool.setuptools]
+packages = ["tedbench", "minesm"]
