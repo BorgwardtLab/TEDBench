@@ -34,7 +34,7 @@ reconstructs the full backbone structure with a lightweight decoder.
 **From PyPI (recommended):**
 
 ```bash
-pip install TEDBench
+pip install tedbench
 ```
 
 **From source** (for training, baselines, or development):
@@ -101,8 +101,9 @@ dm = LightningStructureDataset(
     num_workers=4,
 )
 dm.setup("fit")
-for coords, res_idx, seq_ids, chain, label in dm.train_dataloader():
-    ...
+for batch in dm.train_dataloader():
+    print(batch.keys()) 
+    # dict_keys(['coords', 'residue_index', 'seq_ids', 'protein_chain', 'mask', 'label'])
 ```
 
 **Auto-download from MPCDF** (`dataset_name="ted"` / `"cath4.4"` / `"afdb_stream"`): the archive is fetched from the MPCDF datashare and cached under `root` on first use — no manual download needed:
@@ -115,8 +116,9 @@ dm = LightningStructureDataset(
     num_workers=4,
 )
 dm.setup("fit")
-for coords, res_idx, seq_ids, chain, label in dm.train_dataloader():
-    ...
+for batch in dm.train_dataloader():
+    print(batch.keys()) 
+    # dict_keys(['coords', 'residue_index', 'seq_ids', 'protein_chain', 'mask', 'label'])
 ```
 
 Pass `datamodule=hf_ted` (or `datamodule=hf_cath_test`, `datamodule=hf_afdbfs`) to any
