@@ -14,7 +14,16 @@ requires-python = ">=3.9"
 keywords = ["protein fold classification", "masked autoencoder", "protein structure", "geometric deep learning", "benchmark"]
 license = {text = "BSD-3-Clause"}
 classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD Software License",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
 ]
 dynamic = ["version"]
 dependencies = [
@@ -25,7 +34,6 @@ dependencies = [
     "torchmetrics",
     "lightning",
     "hydra-core",
-    "fair-esm",
     "biotite",
     "biopython",
     "transformers",
@@ -41,10 +49,16 @@ dependencies = [
     "tqdm",
 ]
 
+[project.optional-dependencies]
+baselines = ["fair-esm"]
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["tedbench*", "minesm*"]
 exclude = ["baselines*", "configs*", "datasets*", "tmp*"]
+
+[tool.setuptools.package-data]
+tedbench = ["py.typed"]
 
 [tool.setuptools_scm]
 write_to = "tedbench/_version.py"

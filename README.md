@@ -37,6 +37,12 @@ reconstructs the full backbone structure with a lightweight decoder.
 pip install tedbench
 ```
 
+For running ESM2 / SaProt baselines, add the `baselines` extra:
+
+```bash
+pip install "tedbench[baselines]"
+```
+
 **From source** (for training, baselines, or development):
 
 ```bash
@@ -132,10 +138,14 @@ auto-downloading local variant.
 All models are available on HuggingFace and can be loaded with a single call:
 
 ```python
-from tedbench.utils.io import load_from_hf
+import tedbench
 
-model = load_from_hf("TEDBench/miae-b")  # pretrained MiAE-B
-model.eval()
+model = tedbench.load_model("miae-b")     # pretrained MiAE-B (short name)
+model = tedbench.load_model("miae-b-ft")  # fine-tuned on TEDBench
+
+# List all available models
+for m in tedbench.list_models():
+    print(m["name"], m["type"], m["params"])
 ```
 
 ### Pretrained MiAE (feature extractor / fine-tuning starting point)
