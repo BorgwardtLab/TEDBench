@@ -39,7 +39,6 @@ dependencies = [
     "joblib",
     "rich",
     "tqdm",
-    "matplotlib",
 ]
 
 [tool.setuptools.packages.find]
