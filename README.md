@@ -47,7 +47,7 @@ pip install "tedbench[baselines]"
 
 ```bash
 # 1. Create and activate environment
-micromamba create -n tedbench python=3.10 -y
+micromamba create -n tedbench python=3.12 -y
 micromamba activate tedbench
 
 # 2. Install dependencies
