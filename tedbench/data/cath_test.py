@@ -42,10 +42,11 @@ class CATHTestDataset(StructureDataset):
         self.transform = transform
         self.raw_dir = self.root / "raw"
 
-        if not self.raw_dir.exists() or not any(self.raw_dir.iterdir()):
-            from tedbench.utils.io import download_and_extract
-            print(f"CATH raw data not found in {self.root}. Downloading …")
-            download_and_extract(_CATH_URL, self.root, archive_name="cath.tar.gz")
+        if not self.processed_path.exists():
+            if not self.raw_dir.exists() or not any(self.raw_dir.iterdir()):
+                from tedbench.utils.io import download_and_extract
+                print(f"CATH raw data not found in {self.root}. Downloading …")
+                download_and_extract(_CATH_URL, self.root, archive_name="cath.tar.gz")
 
         self.cath_mapping = torch.load(
             self.root / "cath_mapping.pt", weights_only=False

@@ -82,11 +82,6 @@ class AFDBStreamingDataset(StructureDataset):
 
         if not self.processed_paths[self.file_idx].exists():
             if not self.pdb_dir.exists() or not any(self.pdb_dir.iterdir()):
-                if _AFDB_URL == "TODO":
-                    raise RuntimeError(
-                        f"AFDB raw data not found in {self.root} and no download URL is "
-                        "configured (_AFDB_URL). Please download the dataset manually."
-                    )
                 from tedbench.utils.io import download_and_extract
                 print(f"AFDB raw data not found in {self.root}. Downloading …")
                 download_and_extract(_AFDB_URL, self.root, archive_name="afdb.tar.gz")

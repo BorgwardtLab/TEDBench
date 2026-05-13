@@ -41,11 +41,6 @@ class AFDBTEDStreamingDataset(StructureDataset):
         if not (self.processed_dir / "cath_labels.pt").exists() and (
             not self.pdb_dir.exists() or not any(self.pdb_dir.iterdir())
         ):
-            if _TED_URL == "TODO":
-                raise RuntimeError(
-                    f"TED raw data not found in {self.root} and no download URL is "
-                    "configured (_TED_URL). Please download the dataset manually."
-                )
             from tedbench.utils.io import download_and_extract
             print(f"TED raw data not found in {self.root}. Downloading …")
             download_and_extract(_TED_URL, self.root, archive_name="ted.tar.gz")
