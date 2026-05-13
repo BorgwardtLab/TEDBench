@@ -9,7 +9,7 @@ from torchmetrics.classification import MulticlassAccuracy, MulticlassF1Score
 
 
 class Linear(nn.Linear):
-    def forward(self, input):
+    def forward(self, input: torch.Tensor) -> torch.Tensor:
         bias = self.bias
         if (
             bias is not None
@@ -26,8 +26,15 @@ class Linear(nn.Linear):
         return out
 
     def fit(
-        self, Xtr, ytr, criterion, reg=0.0, epochs=100, optimizer=None, device="cuda"
-    ):
+        self,
+        Xtr: torch.Tensor,
+        ytr: torch.Tensor,
+        criterion: torch.nn.Module,
+        reg: float = 0.0,
+        epochs: int = 100,
+        optimizer: torch.optim.Optimizer | None = None,
+        device: str = "cuda",
+    ) -> None:
         if optimizer is None:
             optimizer = torch.optim.LBFGS(self.parameters(), lr=1.0, history_size=10)
         if self.bias is not None:
@@ -53,7 +60,7 @@ class Linear(nn.Linear):
         self.scale_bias = None
 
     @torch.no_grad()
-    def score(self, X, y):
+    def score(self, X: torch.Tensor, y: torch.Tensor) -> float:
         self.eval()
         scores = self(X)
         scores = scores.argmax(-1)
@@ -61,7 +68,11 @@ class Linear(nn.Linear):
         return torch.mean((scores == y).float()).item()
 
 
-def accuracy(output, target, topk=(1,)):
+def accuracy(
+    output: torch.Tensor,
+    target: torch.Tensor,
+    topk: tuple[int, ...] = (1,),
+) -> list[float]:
     """Computes the precision@k for the specified values of k"""
     maxk = max(topk)
     batch_size = target.size(0)
@@ -78,8 +89,15 @@ def accuracy(output, target, topk=(1,)):
 
 
 def train_and_eval_linear(
-    X_tr, y_tr, X_val, y_val, X_te, y_te, num_class, device="cuda"
-):
+    X_tr: torch.Tensor,
+    y_tr: torch.Tensor,
+    X_val: torch.Tensor,
+    y_val: torch.Tensor,
+    X_te: torch.Tensor | list[torch.Tensor],
+    y_te: torch.Tensor | list[torch.Tensor],
+    num_class: int,
+    device: str = "cuda",
+) -> tuple[float, list[list[float]]]:
     """Train a linear classifier with L-BFGS and evaluate on test sets.
 
     Performs cross-validation over a regularisation grid

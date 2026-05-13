@@ -33,7 +33,7 @@ def download_url(
     return save_file
 
 
-def compute_md5(file_name, chunk_size=65536):
+def compute_md5(file_name: str, chunk_size: int = 65536) -> str:
     """
     Compute MD5 of the file.
 
@@ -52,7 +52,7 @@ def compute_md5(file_name, chunk_size=65536):
     return md5.hexdigest()
 
 
-def extract(zip_file, member=None):
+def extract(zip_file: str, member: str | None = None) -> str:
     """
     Extract files from a zip file. Currently, ``zip``, ``gz``, ``tar.gz``, ``tar`` file types are supported.
 
@@ -131,7 +131,12 @@ def extract(zip_file, member=None):
         return save_path
 
 
-def extract_tar(tar_path, out_path, extract_members=False, strip=0):
+def extract_tar(
+    tar_path: "str | Path",
+    out_path: "str | Path",
+    extract_members: bool = False,
+    strip: int = 0,
+) -> None:
     """Extracts a tar file.
 
     Parameters
@@ -247,7 +252,7 @@ def load_from_hf(model_path: str | Path):
     return model
 
 
-def unzip_file(path, remove=True):
+def unzip_file(path: Path, remove: bool = True) -> Path:
     """Unzips a .gz file.
 
     Parameters

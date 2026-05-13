@@ -20,13 +20,14 @@ is automatic: if ``Path(root).is_dir()`` the dataset is loaded from disk,
 otherwise it is streamed from the Hub.
 """
 from pathlib import Path
+from typing import Optional
 
 import torch
 
 from .abstract import StructureDataset
 
 
-def _load_hf_split(root: str, split: str, cache_dir=None):
+def _load_hf_split(root: str, split: str, cache_dir: Optional[str] = None):
     """Load a single split from a local HF directory or the Hub.
 
     For local paths the dataset must have been saved with ``save_to_disk``:
@@ -54,7 +55,13 @@ class HFTEDDataset(StructureDataset):
             HuggingFace default cache (``~/.cache/huggingface/datasets``).
     """
 
-    def __init__(self, root: str, split: str = "train", transform=None, cache_dir=None):
+    def __init__(
+        self,
+        root: str,
+        split: str = "train",
+        transform=None,
+        cache_dir: Optional[str] = None,
+    ) -> None:
         self._hf = _load_hf_split(root, split, cache_dir)
         self.transform = transform
 
@@ -105,7 +112,13 @@ class HFAFDBDataset(StructureDataset):
         cache_dir: Local directory for the HF dataset cache.
     """
 
-    def __init__(self, root: str, split: str = "train", transform=None, cache_dir=None):
+    def __init__(
+        self,
+        root: str,
+        split: str = "train",
+        transform=None,
+        cache_dir: Optional[str] = None,
+    ) -> None:
         self._hf = _load_hf_split(root, split, cache_dir)
         self.transform = transform
 
@@ -147,7 +160,13 @@ class HFCATHTestDataset(StructureDataset):
         cache_dir: Local directory for the HF dataset cache.
     """
 
-    def __init__(self, root: str, split: str = "test", transform=None, cache_dir=None):
+    def __init__(
+        self,
+        root: str,
+        split: str = "test",
+        transform=None,
+        cache_dir: Optional[str] = None,
+    ) -> None:
         from datasets import load_dataset
         self._hf = load_dataset(root, split="test", cache_dir=cache_dir)
         self.transform = transform

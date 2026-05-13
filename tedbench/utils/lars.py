@@ -1,4 +1,6 @@
 # Adapted from https://github.com/facebookresearch/mae/blob/main/util/lars.py
+from typing import Callable
+
 import torch
 
 
@@ -43,7 +45,7 @@ class LARS(torch.optim.Optimizer):
         super().__setstate__(state)
 
     @torch.no_grad()
-    def step(self, closure=None):
+    def step(self, closure: Callable[[], torch.Tensor] | None = None) -> torch.Tensor | None:
         """Performs a single optimization step.
 
         Args:

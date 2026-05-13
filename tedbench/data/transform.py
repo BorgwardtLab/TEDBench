@@ -1,3 +1,5 @@
+from typing import Callable
+
 import torch
 
 
@@ -8,10 +10,10 @@ class Compose:
         transforms: Ordered list of callables, each taking and returning a sample dict.
     """
 
-    def __init__(self, transforms):
+    def __init__(self, transforms: list[Callable]) -> None:
         self.transforms = transforms
 
-    def __call__(self, data):
+    def __call__(self, data: dict) -> dict:
         for transform in self.transforms:
             data = transform(data)
         return data
@@ -28,11 +30,11 @@ class RandomNoise:
         std: Standard deviation of the Gaussian noise (Å). Default 0.2.
     """
 
-    def __init__(self, mean=0.0, std=0.2):
+    def __init__(self, mean: float = 0.0, std: float = 0.2) -> None:
         self.mean = mean
         self.std = std
 
-    def __call__(self, data):
+    def __call__(self, data: dict) -> dict:
         coords = data["coords"]
         noise = torch.randn_like(coords) * self.std + self.mean
         new_data = data.copy()
@@ -52,10 +54,10 @@ class RandomCrop:
         size: Maximum sequence length after cropping. Default 512.
     """
 
-    def __init__(self, size=512):
+    def __init__(self, size: int = 512) -> None:
         self.size = size
 
-    def __call__(self, data):
+    def __call__(self, data: dict) -> dict:
         coords = data["coords"]
         if len(coords) > self.size:
             start = torch.randint(0, len(coords) - self.size + 1, (1,))

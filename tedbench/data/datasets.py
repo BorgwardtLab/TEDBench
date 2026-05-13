@@ -55,13 +55,13 @@ class LightningStructureDataset(pl.LightningDataModule):
 
     def __init__(
         self,
-        root,
-        dataset_name="ted",
+        root: str,
+        dataset_name: str = "ted",
         train_transform=None,
         transform=None,
         subsample: Optional[Union[int, float]] = None,
         **kwargs,
-    ):
+    ) -> None:
         super().__init__()
         self.root = root
         self.dataset_name = dataset_name
@@ -71,10 +71,10 @@ class LightningStructureDataset(pl.LightningDataModule):
         self.kwargs = kwargs
         self.train_dataset = self.val_dataset = self.test_dataset = None
 
-    def prepare_data(self):
+    def prepare_data(self) -> None:
         pass
 
-    def setup(self, stage="fit"):
+    def setup(self, stage: str = "fit") -> None:
         if stage == "fit":
             if self.train_dataset is None:
                 self.train_dataset = self.datasets_map[self.dataset_name](
@@ -115,7 +115,7 @@ class LightningStructureDataset(pl.LightningDataModule):
                 )
             print(f"# Test samples: {len(self.test_dataset)}")
 
-    def dataloader(self, dataset, **kwargs):
+    def dataloader(self, dataset, **kwargs) -> DataLoader:
         return DataLoader(dataset, **kwargs)
 
     def train_dataloader(self, shuffle=True) -> DataLoader:

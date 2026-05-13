@@ -35,15 +35,15 @@ class MiAEEncoder(nn.Module):
 
     def __init__(
         self,
-        embed_dim=768,
-        depth=12,
-        num_heads=12,
-        geometric_depth=2,
-        v_heads=96,
-        use_seq_input=False,
-        num_classes=1195,
-        avg_pool=False,
-    ):
+        embed_dim: int = 768,
+        depth: int = 12,
+        num_heads: int = 12,
+        geometric_depth: int = 2,
+        v_heads: int = 96,
+        use_seq_input: bool = False,
+        num_classes: int = 1195,
+        avg_pool: bool = False,
+    ) -> None:
         super().__init__()
         self.cls_token = nn.Parameter(torch.zeros(1, 1, embed_dim))
         self.pos_embed = SinusoidalPositionalEmbedding1D(embed_dim)
@@ -71,7 +71,7 @@ class MiAEEncoder(nn.Module):
         self.head = nn.Linear(embed_dim, num_classes)
         self.init_weights()
 
-    def init_weights(self):
+    def init_weights(self) -> None:
         if self.seq_embed is not None:
             nn.init.normal_(self.seq_embed.weight, std=0.02)
 
@@ -79,7 +79,7 @@ class MiAEEncoder(nn.Module):
     def num_layers(self):
         return self.geometric_encoder.num_layers + len(self.encoder.blocks) + 1
 
-    def get_layer_id_by_param_name(self, name):
+    def get_layer_id_by_param_name(self, name: str) -> int:
         offset = self.geometric_encoder.num_layers
         if name.startswith("input_embed"):
             return 0
@@ -147,14 +147,14 @@ class MiAEEncoderDense(MiAEEncoder):
     """
     def __init__(
         self,
-        embed_dim=768,
-        depth=12,
-        num_heads=12,
-        geometric_depth=2,
-        v_heads=96,
-        use_seq_input=False,
-        num_classes=len(C.SEQUENCE_VOCAB),
-    ):
+        embed_dim: int = 768,
+        depth: int = 12,
+        num_heads: int = 12,
+        geometric_depth: int = 2,
+        v_heads: int = 96,
+        use_seq_input: bool = False,
+        num_classes: int = len(C.SEQUENCE_VOCAB),
+    ) -> None:
         super().__init__(
             embed_dim=embed_dim,
             depth=depth,
@@ -201,7 +201,7 @@ class MiAEEncoderDense(MiAEEncoder):
         return x, mask
 
 
-def fot_small(model_cls, **kwargs):
+def fot_small(model_cls: type, **kwargs) -> "MiAEEncoder":
     return model_cls(
         embed_dim=512,
         depth=6,
@@ -212,7 +212,7 @@ def fot_small(model_cls, **kwargs):
     )
 
 
-def fot_base(model_cls, **kwargs):
+def fot_base(model_cls: type, **kwargs) -> "MiAEEncoder":
     return model_cls(
         embed_dim=768,
         depth=12,
@@ -223,7 +223,7 @@ def fot_base(model_cls, **kwargs):
     )
 
 
-def fot_large(model_cls, **kwargs):
+def fot_large(model_cls: type, **kwargs) -> "MiAEEncoder":
     return model_cls(
         embed_dim=1024,
         depth=24,
@@ -234,7 +234,7 @@ def fot_large(model_cls, **kwargs):
     )
 
 
-def fot_huge(model_cls, **kwargs):
+def fot_huge(model_cls: type, **kwargs) -> "MiAEEncoder":
     return model_cls(
         embed_dim=1280,
         depth=32,
@@ -245,7 +245,7 @@ def fot_huge(model_cls, **kwargs):
     )
 
 
-def miae_encoder_model(name="miae_b", dense=False, **kwargs):
+def miae_encoder_model(name: str = "miae_b", dense: bool = False, **kwargs) -> "MiAEEncoder":
     """Instantiate a MiAE encoder (classification head) by name.
 
     Args:

@@ -27,7 +27,7 @@ class ESM3Loss(nn.Module):
         use_inverse_folding_loss: Whether to include the inverse-folding term.
     """
 
-    def __init__(self, hidden_dim, use_inverse_folding_loss=True):
+    def __init__(self, hidden_dim: int, use_inverse_folding_loss: bool = True) -> None:
         super().__init__()
 
         self.inverse_folding_head = None
@@ -37,7 +37,9 @@ class ESM3Loss(nn.Module):
                 embed_dim=hidden_dim, output_dim=len(C.SEQUENCE_VOCAB)
             )
 
-    def forward(self, pred_dict, true_dict):
+    def forward(
+        self, pred_dict: dict, true_dict: dict
+    ) -> tuple[torch.Tensor, dict]:
         # (1) backbone geometric distance loss: pairwise L2 distance matrix for
         # the predicted and true coordinates of the 3 backbone atoms (N, Cα, C)
         geom_dist_loss, geom_dist_metrics = self.compute_geometric_distance(
@@ -83,7 +85,13 @@ class ESM3Loss(nn.Module):
         }
         return loss, metrics
 
-    def compute_geometric_distance(self, x_recon, x, attention_mask, clamp_value=25):
+    def compute_geometric_distance(
+        self,
+        x_recon: torch.Tensor,
+        x: torch.Tensor,
+        attention_mask: torch.Tensor,
+        clamp_value: float = 25,
+    ) -> tuple[torch.Tensor, dict]:
         """
         x_recon: [B, L, 3, 3]
         x: [B, L, 3, 3]
@@ -124,7 +132,7 @@ class ESM3Loss(nn.Module):
         # metrics like spearman R is too time consuming to calculate
         return loss.mean(), metric
 
-    def compute_direction_vectors(self, coords):
+    def compute_direction_vectors(self, coords: torch.Tensor) -> torch.Tensor:
         """
         coords: [B, L, 3, 3]
         """
@@ -155,7 +163,13 @@ class ESM3Loss(nn.Module):
 
         return ret
 
-    def compute_geometric_direction(self, x_recon, x, attention_mask, clamp_value=20):
+    def compute_geometric_direction(
+        self,
+        x_recon: torch.Tensor,
+        x: torch.Tensor,
+        attention_mask: torch.Tensor,
+        clamp_value: float = 20,
+    ) -> tuple[torch.Tensor, dict]:
         """
         x_recon: [B, L, 3, 3]
         x: [B, L, 3, 3]
@@ -186,7 +200,12 @@ class ESM3Loss(nn.Module):
         }
         return loss.mean(), metric
 
-    def compute_binned_direction(self, pairwise_logits, coords, attention_mask):
+    def compute_binned_direction(
+        self,
+        pairwise_logits: torch.Tensor,
+        coords: torch.Tensor,
+        attention_mask: torch.Tensor,
+    ) -> tuple[torch.Tensor, dict]:
         """
         pairwise_logits: [B, L, L, 96]
         coords: [B, L, 3, 3]
@@ -246,7 +265,12 @@ class ESM3Loss(nn.Module):
         }
         return loss.mean(), metric
 
-    def compute_binned_distance(self, pairwise_logits, coords, attention_mask):
+    def compute_binned_distance(
+        self,
+        pairwise_logits: torch.Tensor,
+        coords: torch.Tensor,
+        attention_mask: torch.Tensor,
+    ) -> tuple[torch.Tensor, dict]:
         """
         pairwise_logits: [B, L, L, 64]
         coords: [B, L, 37, 3]
@@ -283,7 +307,12 @@ class ESM3Loss(nn.Module):
         }
         return loss.mean(), metric
 
-    def compute_inverse_folding(self, h, residue_labels, attention_mask):
+    def compute_inverse_folding(
+        self,
+        h: torch.Tensor,
+        residue_labels: torch.Tensor,
+        attention_mask: torch.Tensor,
+    ) -> tuple[torch.Tensor, dict]:
         """
         h: [B, L, d_model=1024]
         residue_labels: [B, L]
@@ -313,7 +342,9 @@ class ESM3Loss(nn.Module):
 
 class RMSDLoss:
     @torch.no_grad()
-    def __call__(self, pred_dict, true_dict, reduction=True):
+    def __call__(
+        self, pred_dict: dict, true_dict: dict, reduction: bool = True
+    ) -> dict:
         bb_rmsd_list = []
         lddt_list = []
         device = pred_dict["bb_pred"][0].device

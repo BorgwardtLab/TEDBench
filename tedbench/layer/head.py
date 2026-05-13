@@ -21,7 +21,7 @@ class PredictionHead(nn.Module):
         hidden_dim: Decoder hidden dimension (width of the decoder).
     """
 
-    def __init__(self, hidden_dim):
+    def __init__(self, hidden_dim: int) -> None:
         super().__init__()
         self.hidden_dim = hidden_dim
         self.affine_output_projection = Dim6RotStructureHead(
@@ -41,7 +41,12 @@ class PredictionHead(nn.Module):
             bias=False,
         )
 
-    def forward(self, x, mask, bb_pred_only=False):
+    def forward(
+        self,
+        x: torch.Tensor,
+        mask: torch.Tensor,
+        bb_pred_only: bool = False,
+    ) -> torch.Tensor | dict:
         # x: [B, N, D]
 
         _, bb_pred = self.affine_output_projection(

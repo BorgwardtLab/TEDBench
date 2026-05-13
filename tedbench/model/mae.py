@@ -46,18 +46,18 @@ class MiAECore(nn.Module):
 
     def __init__(
         self,
-        embed_dim=768,
-        depth=12,
-        num_heads=12,
-        geometric_depth=2,
-        v_heads=96,
-        use_seq_input=False,
-        decoder_embed_dim=512,
-        decoder_depth=8,
-        decoder_num_heads=16,
-        masking_strategy="fixed",
-        use_inverse_folding_loss=True,
-    ):
+        embed_dim: int = 768,
+        depth: int = 12,
+        num_heads: int = 12,
+        geometric_depth: int = 2,
+        v_heads: int = 96,
+        use_seq_input: bool = False,
+        decoder_embed_dim: int = 512,
+        decoder_depth: int = 8,
+        decoder_num_heads: int = 16,
+        masking_strategy: str = "fixed",
+        use_inverse_folding_loss: bool = True,
+    ) -> None:
         super().__init__()
         self.masking_strategy = masking_strategy
         self.cls_token = nn.Parameter(torch.zeros(1, 1, embed_dim))
@@ -100,7 +100,7 @@ class MiAECore(nn.Module):
         )
         self.init_weights()
 
-    def init_weights(self):
+    def init_weights(self) -> None:
         nn.init.normal_(self.mask_token, std=0.02)
         if self.seq_embed is not None:
             nn.init.normal_(self.seq_embed.weight, std=0.02)
@@ -333,7 +333,13 @@ class MiAECore(nn.Module):
         )
         return x, ids_restore, random_mask
 
-    def forward_decoder(self, x, mask, ids_restore, sequence_id):
+    def forward_decoder(
+        self,
+        x: torch.Tensor,
+        mask: torch.Tensor,
+        ids_restore: torch.Tensor,
+        sequence_id: torch.Tensor | None,
+    ) -> dict:
         x = self.decoder_embed(x)
         mask_tokens = self.mask_token.repeat(
             x.shape[0], ids_restore.shape[1] + 1 - x.shape[1], 1
@@ -442,7 +448,7 @@ class MiAECore(nn.Module):
         return x
 
 
-def mae_small_dec512d2b(**kwargs):
+def mae_small_dec512d2b(**kwargs) -> MiAECore:
     return MiAECore(
         embed_dim=512,
         depth=6,
@@ -456,7 +462,7 @@ def mae_small_dec512d2b(**kwargs):
     )
 
 
-def mae_base_dec512d8b(**kwargs):
+def mae_base_dec512d8b(**kwargs) -> MiAECore:
     return MiAECore(
         embed_dim=768,
         depth=12,
@@ -470,7 +476,7 @@ def mae_base_dec512d8b(**kwargs):
     )
 
 
-def mae_large_dec512d2b(**kwargs):
+def mae_large_dec512d2b(**kwargs) -> MiAECore:
     return MiAECore(
         embed_dim=1024,
         depth=24,
@@ -484,7 +490,7 @@ def mae_large_dec512d2b(**kwargs):
     )
 
 
-def mae_huge_dec512d2b(**kwargs):
+def mae_huge_dec512d2b(**kwargs) -> MiAECore:
     return MiAECore(
         embed_dim=1280,
         depth=32,
@@ -498,7 +504,7 @@ def mae_huge_dec512d2b(**kwargs):
     )
 
 
-def mae_base_dec512d2b(**kwargs):
+def mae_base_dec512d2b(**kwargs) -> MiAECore:
     return MiAECore(
         embed_dim=768,
         depth=12,
@@ -512,7 +518,7 @@ def mae_base_dec512d2b(**kwargs):
     )
 
 
-def mae_base_dec512d1b(**kwargs):
+def mae_base_dec512d1b(**kwargs) -> MiAECore:
     return MiAECore(
         embed_dim=768,
         depth=12,
@@ -526,7 +532,7 @@ def mae_base_dec512d1b(**kwargs):
     )
 
 
-def mae_base_dec512d4b(**kwargs):
+def mae_base_dec512d4b(**kwargs) -> MiAECore:
     return MiAECore(
         embed_dim=768,
         depth=12,
@@ -540,7 +546,7 @@ def mae_base_dec512d4b(**kwargs):
     )
 
 
-def mae_base_dec512d6b(**kwargs):
+def mae_base_dec512d6b(**kwargs) -> MiAECore:
     return MiAECore(
         embed_dim=768,
         depth=12,
@@ -554,7 +560,7 @@ def mae_base_dec512d6b(**kwargs):
     )
 
 
-def mae_base_dec256d2b(**kwargs):
+def mae_base_dec256d2b(**kwargs) -> MiAECore:
     return MiAECore(
         embed_dim=768,
         depth=12,
@@ -568,7 +574,7 @@ def mae_base_dec256d2b(**kwargs):
     )
 
 
-def mae_base_dec768d2b(**kwargs):
+def mae_base_dec768d2b(**kwargs) -> MiAECore:
     return MiAECore(
         embed_dim=768,
         depth=12,
@@ -582,7 +588,7 @@ def mae_base_dec768d2b(**kwargs):
     )
 
 
-def miae_model(name="miae_b", **kwargs):
+def miae_model(name: str = "miae_b", **kwargs) -> MiAECore:
     """Instantiate a MiAE pretraining model by name.
 
     Args:

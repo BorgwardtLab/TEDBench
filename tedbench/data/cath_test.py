@@ -35,9 +35,9 @@ class CATHTestDataset(StructureDataset):
     def __init__(
         self,
         root: str = "./datasets/cath",
-        split="test",
+        split: str = "test",
         transform: Optional[Callable] = None,
-    ):
+    ) -> None:
         self.root = Path(root)
         self.transform = transform
         self.raw_dir = self.root / "raw"
@@ -71,7 +71,7 @@ class CATHTestDataset(StructureDataset):
         }
         torch.save(self.cath_inv_map, self.cath_inv_map_path)
 
-    def process(self):
+    def process(self) -> None:
         with open(self.root / "cath_labels.json") as f:
             cath_labels = json.load(f)
 

@@ -1,3 +1,5 @@
+from typing import Callable, Optional
+
 import torch
 from torch.utils.data import Dataset
 
@@ -27,11 +29,13 @@ class StructureDataset(Dataset):
     transform = None
 
     @classmethod
-    def get_protein_chain(cls, bb_coords, **kwargs):
+    def get_protein_chain(cls, bb_coords: torch.Tensor, **kwargs) -> ProteinChain:
         return ProteinChain.from_backbone_atom_coordinates(bb_coords, **kwargs)
 
     @classmethod
-    def process_protein_chain(cls, protein_chain, max_length=None):
+    def process_protein_chain(
+        cls, protein_chain: ProteinChain, max_length: Optional[int] = None
+    ) -> Optional[dict]:
         coords, plddt, residue_index = protein_chain.to_structure_encoder_inputs()
 
         max_length = cls.max_length if max_length is None else max_length
@@ -68,7 +72,7 @@ class StructureDataset(Dataset):
             protein_chain=protein_chain,
         )
 
-    def collate_fn(self, batch):
+    def collate_fn(self, batch: list) -> dict:
         """passed to DataLoader as collate_fn argument"""
         batch = list(filter(lambda x: x is not None, batch))
 
@@ -111,7 +115,7 @@ class StructureDataset(Dataset):
             label=label,
         )
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.data)
 
     def __getitem__(self, index: int):

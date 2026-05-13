@@ -1,11 +1,12 @@
 import joblib
 import gzip
 import pickle
+from pathlib import Path
+from typing import Callable, Literal, Optional
+
 import numpy as np
 import torch
 from rich.progress import track
-from pathlib import Path
-from typing import Literal
 from sklearn.model_selection import train_test_split
 from minesm.utils.structure.protein_chain import ProteinChain
 from .abstract import StructureDataset
@@ -20,11 +21,11 @@ class AFDBTEDStreamingDataset(StructureDataset):
 
     def __init__(
         self,
-        root,
-        split="train",
-        transform=None,
-        n_jobs=-1,
-    ):
+        root: "str | Path",
+        split: str = "train",
+        transform: Optional[Callable] = None,
+        n_jobs: int = -1,
+    ) -> None:
         self.split = split
         file_idx = {"train": 0, "val": 1, "test": 2}
         self.file_idx = file_idx[split]
@@ -201,12 +202,12 @@ class AFDBTEDStreamingDataset(StructureDataset):
     def num_classes(self):
         return len(self.cath_mapping)
 
-    def process_func(self, pdb_file):
+    def process_func(self, pdb_file: Path) -> Optional[dict]:
         # Process a single PDB file and return a Dictionary
         protein_chain = ProteinChain.from_pdb(pdb_file)
         return self.process_protein_chain(protein_chain, max_length=float("inf"))
 
-    def process(self):
+    def process(self) -> None:
         if self.processed_paths[self.file_idx].exists():
             return
 
@@ -234,7 +235,7 @@ class AFDBTEDStreamingDataset(StructureDataset):
             {"pdb": pdb_files_test, "labels": labels_test}, self.processed_paths[2]
         )
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.pdb_files_split)
 
     def __getitem__(self, index: int):

@@ -1,11 +1,15 @@
 import torch
 import numpy as np
-from typing import List
+from typing import List, Sequence, Union
 
 
 def pad_structures(
-    items, constant_value=0, dtype=None, truncation_length=600, pad_length=None
-):
+    items: Sequence,
+    constant_value: Union[int, float] = 0,
+    dtype: torch.dtype | None = None,
+    truncation_length: int = 600,
+    pad_length: int | None = None,
+) -> torch.Tensor:
     """Reference to TAPE https://github.com/songlab-cal/tape/blob/6d345c2b2bbf52cd32cf179325c222afd92aec7e/tape/datasets.py#L37"""
     batch_size = len(items)
     if isinstance(items[0], List):

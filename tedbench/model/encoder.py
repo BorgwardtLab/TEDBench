@@ -1,3 +1,6 @@
+from typing import Any, Optional
+
+import torch
 from torch import nn
 
 from minesm.layers.blocks import UnifiedTransformerBlock
@@ -11,7 +14,7 @@ class GeometricEncoderStack(TransformerStack):
     the ESM3 geometric encoder design described in Appendix B.1 of the paper.
     """
 
-    def __init__(self, d_model, n_heads, v_heads, n_layers):
+    def __init__(self, d_model: int, n_heads: int, v_heads: int, n_layers: int) -> None:
         super().__init__(d_model, n_heads, v_heads, 0)
         self.blocks = nn.ModuleList(
             [
@@ -45,7 +48,7 @@ class GeometricEncoder(nn.Module):
         n_layers: Number of :class:`GeometricEncoderStack` blocks.
     """
 
-    def __init__(self, d_model, n_heads, v_heads, n_layers):
+    def __init__(self, d_model: int, n_heads: int, v_heads: int, n_layers: int) -> None:
         super().__init__()
         # We only support fully-geometric structure token encoders for now...
         # setting n_layers_geom to something that's not n_layers won't work because
@@ -58,12 +61,12 @@ class GeometricEncoder(nn.Module):
 
     def forward(
         self,
-        x,
-        mask,
-        affine,
-        affine_mask=None,
-        sequence_id=None,
-    ):
+        x: torch.Tensor,
+        mask: torch.Tensor,
+        affine: Any,
+        affine_mask: Optional[torch.Tensor] = None,
+        sequence_id: Optional[torch.Tensor] = None,
+    ) -> tuple[torch.Tensor, torch.Tensor, list[torch.Tensor]]:
         return self.transformer(
             x=x,
             attention_mask=mask,

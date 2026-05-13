@@ -2,7 +2,12 @@ import math
 import torch
 
 
-def get_cosine_schedule_with_warmup(optimizer, warmup_steps, max_steps, min_factor=0.0):
+def get_cosine_schedule_with_warmup(
+    optimizer: torch.optim.Optimizer,
+    warmup_steps: int,
+    max_steps: int,
+    min_factor: float = 0.0,
+) -> torch.optim.lr_scheduler.LambdaLR:
     """Cosine decay LR schedule with a linear warm-up phase.
 
     The learning rate ramps linearly from ~0 to the base LR over
@@ -29,7 +34,11 @@ def get_cosine_schedule_with_warmup(optimizer, warmup_steps, max_steps, min_fact
     return torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda)
 
 
-def get_constant_schedule_with_warmup(optimizer, warmup_epochs, max_epochs=None):
+def get_constant_schedule_with_warmup(
+    optimizer: torch.optim.Optimizer,
+    warmup_epochs: int,
+    max_epochs: int | None = None,
+) -> torch.optim.lr_scheduler.LambdaLR:
     """Constant LR schedule with a linear warm-up phase.
 
     Args:
@@ -48,7 +57,11 @@ def get_constant_schedule_with_warmup(optimizer, warmup_epochs, max_epochs=None)
     return torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda)
 
 
-def get_layerwise_lr_decay(model, lr, lr_decay_factor=0.75):
+def get_layerwise_lr_decay(
+    model: torch.nn.Module,
+    lr: float,
+    lr_decay_factor: float = 0.75,
+) -> list[dict]:
     """Build per-layer parameter groups with exponentially decaying learning rates.
 
     Lower layers receive smaller learning rates, following the layer-wise LR

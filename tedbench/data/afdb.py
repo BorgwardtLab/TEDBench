@@ -1,5 +1,6 @@
 import joblib
 from pathlib import Path
+from typing import Callable, Optional
 import numpy as np
 import torch
 from rich.progress import track
@@ -12,11 +13,11 @@ _AFDB_URL = "https://datashare.mpcdf.mpg.de/s/m4owC3SQbd2r6rk/download"
 class AFDBDataset(StructureDataset):
     def __init__(
         self,
-        root,
-        split="train",
-        transform=None,
-        n_jobs=-1,
-    ):
+        root: "str | Path",
+        split: str = "train",
+        transform: Optional[Callable] = None,
+        n_jobs: int = -1,
+    ) -> None:
         self.split = split
         file_idx = {"train": 0, "val": 1}
         self.file_idx = file_idx[split]
@@ -33,12 +34,12 @@ class AFDBDataset(StructureDataset):
     def processed_paths(self):
         return [self.processed_dir / "train_st.pt", self.processed_dir / "val_st.pt"]
 
-    def process_func(self, pdb_file):
+    def process_func(self, pdb_file: Path) -> Optional[dict]:
         # Process a single PDB file and return a Dictionary
         protein_chain = ProteinChain.from_pdb(pdb_file)
         return self.process_protein_chain(protein_chain)
 
-    def process(self):
+    def process(self) -> None:
         # Read data into huge `Data` list.
         pdb_files = sorted(self.pdb_dir.glob("*.pdb"))
 
@@ -66,11 +67,11 @@ class AFDBDataset(StructureDataset):
 class AFDBStreamingDataset(StructureDataset):
     def __init__(
         self,
-        root,
-        split="train",
-        transform=None,
-        n_jobs=-1,
-    ):
+        root: "str | Path",
+        split: str = "train",
+        transform: Optional[Callable] = None,
+        n_jobs: int = -1,
+    ) -> None:
         self.split = split
         file_idx = {"train": 0, "val": 1}
         self.file_idx = file_idx[split]
@@ -97,13 +98,13 @@ class AFDBStreamingDataset(StructureDataset):
             self.processed_dir / "val_pdb_files.pt",
         ]
 
-    def process_func(self, pdb_file):
+    def process_func(self, pdb_file: Path) -> Optional[dict]:
         # Process a single PDB file and return a Dictionary
         protein_chain = ProteinChain.from_pdb(pdb_file)
         return self.process_protein_chain(protein_chain)
 
     @classmethod
-    def process_files(cls, pdb_file, max_length=None):
+    def process_files(cls, pdb_file: Path, max_length: Optional[int] = None) -> Optional[Path]:
         protein_chain = ProteinChain.from_pdb(pdb_file)
         coords, plddt, residue_index = protein_chain.to_structure_encoder_inputs()
         length = len(coords[0])
@@ -112,7 +113,7 @@ class AFDBStreamingDataset(StructureDataset):
             return None
         return pdb_file
 
-    def process(self):
+    def process(self) -> None:
         # Read data into huge `Data` list.
         pdb_files = sorted(self.pdb_dir.glob("*.pdb"))
 
@@ -135,7 +136,7 @@ class AFDBStreamingDataset(StructureDataset):
         torch.save(pdb_files_train, self.processed_paths[0])
         torch.save(pdb_files_val, self.processed_paths[1])
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.pdb_files)
 
     def __getitem__(self, index: int):

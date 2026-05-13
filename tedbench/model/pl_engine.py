@@ -1,3 +1,5 @@
+from typing import Any
+
 import hydra
 import pytorch_lightning as pl
 import torch
@@ -27,7 +29,7 @@ class MiAE(pl.LightningModule):
             - ``cfg.train.lr_scheduler`` — cosine schedule config.
     """
 
-    def __init__(self, cfg):
+    def __init__(self, cfg: Any) -> None:
         super().__init__()
 
         self.cfg = cfg
@@ -38,13 +40,19 @@ class MiAE(pl.LightningModule):
         self.instantiate_loss()
         self.save_hyperparameters()
 
-    def instantiate_loss(self):
+    def instantiate_loss(self) -> None:
         self.loss_fn = self.model.loss_fn
         self.val_loss_fn = RMSDLoss()
 
     def forward(
-        self, coords, mask, residue_index, seq_tokens=None, mask_ratio=0.0, noise=0.0
-    ):
+        self,
+        coords: torch.Tensor,
+        mask: torch.Tensor,
+        residue_index: torch.Tensor,
+        seq_tokens: torch.Tensor | None = None,
+        mask_ratio: float = 0.0,
+        noise: float = 0.0,
+    ) -> dict:
         return self.model(
             coords,
             mask,
@@ -156,7 +164,7 @@ class MiAEClassifier(pl.LightningModule):
             - ``cfg.train.llrd`` — layer-wise LR decay factor (use ``< 1`` to enable).
     """
 
-    def __init__(self, cfg):
+    def __init__(self, cfg: Any) -> None:
         super().__init__()
 
         self.cfg = cfg
@@ -165,7 +173,7 @@ class MiAEClassifier(pl.LightningModule):
         self.instantiate_loss()
         self.save_hyperparameters()
 
-    def instantiate_loss(self):
+    def instantiate_loss(self) -> None:
         self.loss_fn = hydra.utils.call(self.cfg.train.loss)
         if not getattr(self.cfg.model, "dense", False):
             self.metric_fn = MetricCollection(
@@ -190,7 +198,7 @@ class MiAEClassifier(pl.LightningModule):
                 }
             )
 
-    def set_mode(self, mode="linprobe"):
+    def set_mode(self, mode: str = "linprobe") -> None:
         if mode == "linprobe":
             torch.nn.init.trunc_normal_(self.model.head.weight, std=0.01)
             self.model.head = torch.nn.Sequential(
@@ -204,7 +212,14 @@ class MiAEClassifier(pl.LightningModule):
             for _, p in self.model.head.named_parameters():
                 p.requires_grad = True
 
-    def forward(self, coords, mask, residue_index, seq_tokens=None, repr_only=False):
+    def forward(
+        self,
+        coords: torch.Tensor,
+        mask: torch.Tensor,
+        residue_index: torch.Tensor,
+        seq_tokens: torch.Tensor | None = None,
+        repr_only: bool = False,
+    ) -> torch.Tensor:
         return self.model(
             coords, mask, residue_index, seq_tokens=seq_tokens, repr_only=repr_only
         )
