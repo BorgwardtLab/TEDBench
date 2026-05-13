@@ -174,12 +174,19 @@ Evaluate any model from the HuggingFace Hub without any local data setup:
 ```bash
 # Test fine-tuned MiAE-B on TEDBench test split
 python main_test_ted.py \
+    datamodule=hf_ted \
     pretrained_model_path=TEDBench/miae-b-ft
 
 # Test on the CATH 4.4 external experimental test set
 python main_test_ted.py \
     datamodule=hf_cath_test \
     pretrained_model_path=TEDBench/miae-b-ft
+
+# Test fine-tuned MiAE-B+seq on TEDBench test split
+python main_test_ted.py \
+    datamodule=hf_ted \
+    +model.use_seq_input=true \
+    pretrained_model_path=TEDBench/miae-b-seq-ft
 
 # Test supervised-from-scratch MiAE-B
 python main_test_ted.py \
