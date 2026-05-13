@@ -31,9 +31,9 @@ class LightningStructureDataset(pl.LightningDataModule):
 
             HuggingFace datasets (``root`` = HF repo ID or local HF directory):
 
-            * ``"hf_ted"``      — TEDBench from ``dexiongc/tedbench``
-            * ``"hf_afdb"``     — AFDB pretraining from ``dexiongc/tedbench-afdb``
-            * ``"hf_cath4.4"``  — CATH 4.4 test set from ``dexiongc/tedbench-cath``
+            * ``"hf_ted"``      — TEDBench from ``TEDBench/ted``
+            * ``"hf_afdb"``     — AFDB pretraining from ``TEDBench/afdb``
+            * ``"hf_cath4.4"``  — CATH 4.4 test set from ``TEDBench/cath``
 
         train_transform: Optional transform applied to training samples.
         transform: Optional transform applied to validation/test samples.

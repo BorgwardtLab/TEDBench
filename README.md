@@ -59,9 +59,9 @@ Datasets are available from two sources:
 
 | Dataset | HuggingFace | Direct download |
 |---|---|---|
-| TEDBench (AFDB + CATH labels) | [`dexiongc/tedbench`](https://huggingface.co/datasets/dexiongc/tedbench) | [MPCDF datashare](https://datashare.mpcdf.mpg.de/s/m4owC3SQbd2r6rk) |
-| AFDB pretraining corpus | [`dexiongc/tedbench-afdb`](https://huggingface.co/datasets/dexiongc/tedbench-afdb) | [MPCDF datashare](https://datashare.mpcdf.mpg.de/s/m4owC3SQbd2r6rk) |
-| CATH 4.4 experimental test set | [`dexiongc/tedbench-cath`](https://huggingface.co/datasets/dexiongc/tedbench-cath) | [MPCDF datashare](https://datashare.mpcdf.mpg.de/s/pjXMpff7GsYTR22) |
+| TEDBench (AFDB + CATH labels) | [`TEDBench/ted`](https://huggingface.co/datasets/TEDBench/ted) | [MPCDF datashare](https://datashare.mpcdf.mpg.de/s/m4owC3SQbd2r6rk) |
+| AFDB pretraining corpus | [`TEDBench/afdb`](https://huggingface.co/datasets/TEDBench/afdb) | [MPCDF datashare](https://datashare.mpcdf.mpg.de/s/m4owC3SQbd2r6rk) |
+| CATH 4.4 experimental test set | [`TEDBench/cath`](https://huggingface.co/datasets/TEDBench/cath) | [MPCDF datashare](https://datashare.mpcdf.mpg.de/s/pjXMpff7GsYTR22) |
 
 The HuggingFace repos require no local setup; the MPCDF archives are auto-downloaded and cached the first time a local dataset class is instantiated (default roots: `./datasets/ted/` and `./datasets/cath/`).
 
@@ -74,17 +74,17 @@ from datasets import load_dataset
 import torch
 
 # TEDBench — train / val / test with CATH labels
-ted = load_dataset("dexiongc/tedbench")
+ted = load_dataset("TEDBench/ted")
 sample = ted["train"][0]
 coords    = torch.tensor(sample["coords"])   # [L, 3, 3]
 label     = sample["label"]                  # int index
 cath_code = ted["train"].features["label"].int2str(label)  # e.g. "3.40.50.300"
 
 # CATH 4.4 external test set
-cath = load_dataset("dexiongc/tedbench-cath", split="test")
+cath = load_dataset("TEDBench/cath", split="test")
 
 # AFDB pretraining corpus
-afdb = load_dataset("dexiongc/tedbench-afdb", split="train")
+afdb = load_dataset("TEDBench/afdb", split="train")
 ```
 
 ### Use with `LightningStructureDataset`
@@ -95,7 +95,7 @@ afdb = load_dataset("dexiongc/tedbench-afdb", split="train")
 from tedbench.data import LightningStructureDataset
 
 dm = LightningStructureDataset(
-    root="dexiongc/tedbench",   # HF repo ID
+    root="TEDBench/ted",   # HF repo ID
     dataset_name="hf_ted",
     batch_size=32,
     num_workers=4,
@@ -132,7 +132,7 @@ All models are available on HuggingFace and can be loaded with a single call:
 ```python
 from tedbench.utils.io import load_from_hf
 
-model = load_from_hf("dexiongc/tedbench-miae-b")  # pretrained MiAE-B
+model = load_from_hf("TEDBench/miae-b")  # pretrained MiAE-B
 model.eval()
 ```
 
@@ -140,28 +140,28 @@ model.eval()
 
 | Model | HF repo | Params |
 |---|---|---|
-| MiAE-S | [`dexiongc/tedbench-miae-s`](https://huggingface.co/dexiongc/tedbench-miae-s) | 29 M |
-| MiAE-B | [`dexiongc/tedbench-miae-b`](https://huggingface.co/dexiongc/tedbench-miae-b) | 102 M |
-| MiAE-B+seq | [`dexiongc/tedbench-miae-b-seq`](https://huggingface.co/dexiongc/tedbench-miae-b-seq) | 102 M |
-| MiAE-L | [`dexiongc/tedbench-miae-l`](https://huggingface.co/dexiongc/tedbench-miae-l) | 339 M |
+| MiAE-S | [`TEDBench/miae-s`](https://huggingface.co/TEDBench/miae-s) | 29 M |
+| MiAE-B | [`TEDBench/miae-b`](https://huggingface.co/TEDBench/miae-b) | 102 M |
+| MiAE-B+seq | [`TEDBench/miae-b-seq`](https://huggingface.co/TEDBench/miae-b-seq) | 102 M |
+| MiAE-L | [`TEDBench/miae-l`](https://huggingface.co/TEDBench/miae-l) | 339 M |
 
 ### Fine-tuned on TEDBench (fold classifier)
 
 | Model | HF repo | TEDBench test acc | CATH 4.4 test acc |
 |---|---|---|---|
-| MiAE-S (ft) | [`dexiongc/tedbench-miae-s-ft`](https://huggingface.co/dexiongc/tedbench-miae-s-ft) | 72.28 | 76.08 |
-| MiAE-B (ft) | [`dexiongc/tedbench-miae-b-ft`](https://huggingface.co/dexiongc/tedbench-miae-b-ft) | 73.71 | 75.72 |
-| MiAE-B+seq (ft) | [`dexiongc/tedbench-miae-b-seq-ft`](https://huggingface.co/dexiongc/tedbench-miae-b-seq-ft) | 74.56 | 77.34 |
-| MiAE-L (ft) | [`dexiongc/tedbench-miae-l-ft`](https://huggingface.co/dexiongc/tedbench-miae-l-ft) | 73.47 | 76.46 |
+| MiAE-S (ft) | [`TEDBench/miae-s-ft`](https://huggingface.co/TEDBench/miae-s-ft) | 72.28 | 76.08 |
+| MiAE-B (ft) | [`TEDBench/miae-b-ft`](https://huggingface.co/TEDBench/miae-b-ft) | 73.71 | 75.72 |
+| MiAE-B+seq (ft) | [`TEDBench/miae-b-seq-ft`](https://huggingface.co/TEDBench/miae-b-seq-ft) | 74.56 | 77.34 |
+| MiAE-L (ft) | [`TEDBench/miae-l-ft`](https://huggingface.co/TEDBench/miae-l-ft) | 73.47 | 76.46 |
 
 ### Trained from scratch on TEDBench (no pretraining)
 
 | Model | HF repo |
 |---|---|
-| MiAE-S (sc) | [`dexiongc/tedbench-miae-s-sc`](https://huggingface.co/dexiongc/tedbench-miae-s-sc) |
-| MiAE-B (sc) | [`dexiongc/tedbench-miae-b-sc`](https://huggingface.co/dexiongc/tedbench-miae-b-sc) |
-| MiAE-B+seq (sc) | [`dexiongc/tedbench-miae-b-seq-sc`](https://huggingface.co/dexiongc/tedbench-miae-b-seq-sc) |
-| MiAE-L (sc) | [`dexiongc/tedbench-miae-l-sc`](https://huggingface.co/dexiongc/tedbench-miae-l-sc) |
+| MiAE-S (sc) | [`TEDBench/miae-s-sc`](https://huggingface.co/TEDBench/miae-s-sc) |
+| MiAE-B (sc) | [`TEDBench/miae-b-sc`](https://huggingface.co/TEDBench/miae-b-sc) |
+| MiAE-B+seq (sc) | [`TEDBench/miae-b-seq-sc`](https://huggingface.co/TEDBench/miae-b-seq-sc) |
+| MiAE-L (sc) | [`TEDBench/miae-l-sc`](https://huggingface.co/TEDBench/miae-l-sc) |
 
 ---
 
@@ -172,20 +172,20 @@ Evaluate any model from the HuggingFace Hub without any local data setup:
 ```bash
 # Test fine-tuned MiAE-B on TEDBench test split
 python main_test_ted.py \
-    pretrained_model_path=dexiongc/tedbench-miae-b-ft
+    pretrained_model_path=TEDBench/miae-b-ft
 
 # Test on the CATH 4.4 external experimental test set
 python main_test_ted.py \
     datamodule=hf_cath_test \
-    pretrained_model_path=dexiongc/tedbench-miae-b-ft
+    pretrained_model_path=TEDBench/miae-b-ft
 
 # Test supervised-from-scratch MiAE-B
 python main_test_ted.py \
-    pretrained_model_path=dexiongc/tedbench-miae-b-sc
+    pretrained_model_path=TEDBench/miae-b-sc
 
 # Linear probing with pretrained MiAE-B
 python main_linprobe_ted.py \
-    pretrained_model_path=dexiongc/tedbench-miae-b
+    pretrained_model_path=TEDBench/miae-b
 ```
 
 ---

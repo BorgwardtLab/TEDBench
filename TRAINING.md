@@ -77,18 +77,18 @@ Initialize from a pretrained MiAE and fine-tune end-to-end with layer-wise LR de
 ```bash
 # MiAE-B from HuggingFace Hub
 python main_finetune_ted.py \
-    pretrained_model_path=dexiongc/tedbench-miae-b \
+    pretrained_model_path=TEDBench/miae-b \
     experiment=finetune_ted_base_n1g8
 
 # MiAE-B+seq
 python main_finetune_ted.py \
-    pretrained_model_path=dexiongc/tedbench-miae-b-seq \
+    pretrained_model_path=TEDBench/miae-b-seq \
     experiment=finetune_ted_base_n1g8 \
     model.use_seq_input=true
 
 # MiAE-L
 python main_finetune_ted.py \
-    pretrained_model_path=dexiongc/tedbench-miae-l \
+    pretrained_model_path=TEDBench/miae-l \
     experiment=finetune_ted_base_n1g8 \
     model.name=miae_l \
     datamodule.batch_size=32 \
@@ -97,7 +97,7 @@ python main_finetune_ted.py \
 # With HuggingFace dataset
 python main_finetune_ted.py \
     datamodule=hf_ted \
-    pretrained_model_path=dexiongc/tedbench-miae-b \
+    pretrained_model_path=TEDBench/miae-b \
     experiment=finetune_ted_base_n1g8
 ```
 
@@ -120,16 +120,16 @@ with L-BFGS (cross-validated regularisation).
 ```bash
 # MiAE-B from HuggingFace Hub
 python main_linprobe_ted.py \
-    pretrained_model_path=dexiongc/tedbench-miae-b
+    pretrained_model_path=TEDBench/miae-b
 
 # With HuggingFace dataset
 python main_linprobe_ted.py \
     datamodule=hf_ted \
-    pretrained_model_path=dexiongc/tedbench-miae-b
+    pretrained_model_path=TEDBench/miae-b
 
 # MiAE-L
 python main_linprobe_ted.py \
-    pretrained_model_path=dexiongc/tedbench-miae-l \
+    pretrained_model_path=TEDBench/miae-l \
     model.name=miae_l
 ```
 
@@ -145,16 +145,16 @@ external test set.
 ```bash
 # TEDBench test split (fine-tuned MiAE-B)
 python main_test_ted.py \
-    pretrained_model_path=dexiongc/tedbench-miae-b-ft
+    pretrained_model_path=TEDBench/miae-b-ft
 
 # CATH 4.4 external test set
 python main_test_ted.py \
     datamodule=hf_cath_test \
-    pretrained_model_path=dexiongc/tedbench-miae-b-ft
+    pretrained_model_path=TEDBench/miae-b-ft
 
 # Supervised-from-scratch MiAE-B
 python main_test_ted.py \
-    pretrained_model_path=dexiongc/tedbench-miae-b-sc
+    pretrained_model_path=TEDBench/miae-b-sc
 ```
 
 ---
@@ -165,21 +165,21 @@ python main_test_ted.py \
 
 ```bash
 # MiAE-B
-python main_test_ted.py pretrained_model_path=dexiongc/tedbench-miae-b-sc
+python main_test_ted.py pretrained_model_path=TEDBench/miae-b-sc
 
 # MiAE-B on CATH 4.4 external test
 python main_test_ted.py \
-    pretrained_model_path=dexiongc/tedbench-miae-b-sc \
+    pretrained_model_path=TEDBench/miae-b-sc \
     datamodule=hf_cath_test
 
 # MiAE-B+seq
 python main_test_ted.py \
-    pretrained_model_path=dexiongc/tedbench-miae-b-seq-sc \
+    pretrained_model_path=TEDBench/miae-b-seq-sc \
     model.use_seq_input=true
 
 # MiAE-L
 python main_test_ted.py \
-    pretrained_model_path=dexiongc/tedbench-miae-l-sc \
+    pretrained_model_path=TEDBench/miae-l-sc \
     model.name=miae_l
 ```
 
@@ -187,18 +187,18 @@ python main_test_ted.py \
 
 ```bash
 # MiAE-B (replace -sc with -ft for the fine-tuned variant)
-python main_test_ted.py pretrained_model_path=dexiongc/tedbench-miae-b-ft
+python main_test_ted.py pretrained_model_path=TEDBench/miae-b-ft
 
 # MiAE-B on CATH 4.4 external test
 python main_test_ted.py \
-    pretrained_model_path=dexiongc/tedbench-miae-b-ft \
+    pretrained_model_path=TEDBench/miae-b-ft \
     datamodule=hf_cath_test
 ```
 
 ### Linear probing
 
 ```bash
-python main_linprobe_ted.py pretrained_model_path=dexiongc/tedbench-miae-b
+python main_linprobe_ted.py pretrained_model_path=TEDBench/miae-b
 ```
 
 ---

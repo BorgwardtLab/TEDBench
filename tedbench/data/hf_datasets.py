@@ -10,11 +10,11 @@ and can be selected with a single config change:
 
     # configs/datamodule/hf_ted.yaml
     _target_: tedbench.data.TEDLightningDataset
-    root: dexiongc/tedbench   # HF repo ID  — OR —  path to a local HF directory
+    root: TEDBench/ted   # HF repo ID  — OR —  path to a local HF directory
     dataset_name: hf_ted
 
 The ``root`` parameter is either a HuggingFace repo ID (e.g.
-``"dexiongc/tedbench"``) or a local directory previously created with
+``"TEDBench/ted"``) or a local directory previously created with
 ``save_to_disk`` via ``scripts/upload_datasets.py --save-dir-*``.  Detection
 is automatic: if ``Path(root).is_dir()`` the dataset is loaded from disk,
 otherwise it is streamed from the Hub.
@@ -47,7 +47,7 @@ class HFTEDDataset(StructureDataset):
     """TEDBench train / val / test loaded from HuggingFace Hub.
 
     Args:
-        root: HuggingFace repo ID (e.g. ``"dexiongc/tedbench"``).
+        root: HuggingFace repo ID (e.g. ``"TEDBench/ted"``).
         split: Dataset split — ``"train"``, ``"val"``, or ``"test"``.
         transform: Optional per-sample transform applied in ``__getitem__``.
         cache_dir: Local directory for the HF dataset cache. Defaults to the
@@ -98,7 +98,7 @@ class HFAFDBDataset(StructureDataset):
     AlphaFold Database (pLDDT > 80), with ``"train"`` and ``"val"`` splits.
 
     Args:
-        root: HuggingFace repo ID (e.g. ``"dexiongc/tedbench-afdb"``) or a
+        root: HuggingFace repo ID (e.g. ``"TEDBench/afdb"``) or a
             local directory created with ``scripts/upload_datasets.py --save-dir-afdb``.
         split: Dataset split — ``"train"`` or ``"val"``.
         transform: Optional per-sample transform applied in ``__getitem__``.
@@ -140,7 +140,7 @@ class HFCATHTestDataset(StructureDataset):
     """CATH 4.4 experimental test set loaded from HuggingFace Hub.
 
     Args:
-        root: HuggingFace repo ID (e.g. ``"dexiongc/tedbench-cath"``).
+        root: HuggingFace repo ID (e.g. ``"TEDBench/cath"``).
         split: Unused; kept for API consistency — the CATH dataset only has a
             ``"test"`` split.
         transform: Optional per-sample transform applied in ``__getitem__``.
