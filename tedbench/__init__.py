@@ -25,82 +25,81 @@ except PackageNotFoundError:
 # Model registry
 # ---------------------------------------------------------------------------
 
-_HF_ORG = "dexiongc"
-_PREFIX = "tedbench"
+_HF_ORG = "TEDBench"
 
 _MODEL_REGISTRY: dict[str, dict] = {
     # ---- Small (29M) ----
     "miae-s": {
-        "repo_id": f"{_HF_ORG}/{_PREFIX}-miae-s",
+        "repo_id": f"{_HF_ORG}/miae-s",
         "params": "29M",
         "type": "pretrained",
         "description": "MiAE-Small pretrained encoder",
     },
     "miae-s-ft": {
-        "repo_id": f"{_HF_ORG}/{_PREFIX}-miae-s-ft",
+        "repo_id": f"{_HF_ORG}/miae-s-ft",
         "params": "29M",
         "type": "fine-tuned",
         "description": "MiAE-Small fine-tuned on TEDBench fold classification",
     },
     "miae-s-sc": {
-        "repo_id": f"{_HF_ORG}/{_PREFIX}-miae-s-sc",
+        "repo_id": f"{_HF_ORG}/miae-s-sc",
         "params": "29M",
         "type": "from-scratch",
         "description": "MiAE-Small trained from scratch on TEDBench",
     },
     # ---- Base (102M) ----
     "miae-b": {
-        "repo_id": f"{_HF_ORG}/{_PREFIX}-miae-b",
+        "repo_id": f"{_HF_ORG}/miae-b",
         "params": "102M",
         "type": "pretrained",
         "description": "MiAE-Base pretrained encoder",
     },
     "miae-b-ft": {
-        "repo_id": f"{_HF_ORG}/{_PREFIX}-miae-b-ft",
+        "repo_id": f"{_HF_ORG}/miae-b-ft",
         "params": "102M",
         "type": "fine-tuned",
         "description": "MiAE-Base fine-tuned on TEDBench fold classification",
     },
     "miae-b-sc": {
-        "repo_id": f"{_HF_ORG}/{_PREFIX}-miae-b-sc",
+        "repo_id": f"{_HF_ORG}/miae-b-sc",
         "params": "102M",
         "type": "from-scratch",
         "description": "MiAE-Base trained from scratch on TEDBench",
     },
     # ---- Base + sequence input (102M) ----
     "miae-b-seq": {
-        "repo_id": f"{_HF_ORG}/{_PREFIX}-miae-b-seq",
+        "repo_id": f"{_HF_ORG}/miae-b-seq",
         "params": "102M",
         "type": "pretrained",
         "description": "MiAE-Base+seq pretrained encoder (structure + sequence tokens)",
     },
     "miae-b-seq-ft": {
-        "repo_id": f"{_HF_ORG}/{_PREFIX}-miae-b-seq-ft",
+        "repo_id": f"{_HF_ORG}/miae-b-seq-ft",
         "params": "102M",
         "type": "fine-tuned",
         "description": "MiAE-Base+seq fine-tuned on TEDBench fold classification",
     },
     "miae-b-seq-sc": {
-        "repo_id": f"{_HF_ORG}/{_PREFIX}-miae-b-seq-sc",
+        "repo_id": f"{_HF_ORG}/miae-b-seq-sc",
         "params": "102M",
         "type": "from-scratch",
         "description": "MiAE-Base+seq trained from scratch on TEDBench",
     },
     # ---- Large (339M) ----
     "miae-l": {
-        "repo_id": f"{_HF_ORG}/{_PREFIX}-miae-l",
+        "repo_id": f"{_HF_ORG}/miae-l",
         "params": "339M",
         "type": "pretrained",
         "description": "MiAE-Large pretrained encoder",
     },
     "miae-l-ft": {
-        "repo_id": f"{_HF_ORG}/{_PREFIX}-miae-l-ft",
+        "repo_id": f"{_HF_ORG}/miae-l-ft",
         "params": "339M",
         "type": "fine-tuned",
         "description": "MiAE-Large fine-tuned on TEDBench fold classification",
     },
     "miae-l-sc": {
-        "repo_id": f"{_HF_ORG}/{_PREFIX}-miae-l-sc",
+        "repo_id": f"{_HF_ORG}/miae-l-sc",
         "params": "339M",
         "type": "from-scratch",
         "description": "MiAE-Large trained from scratch on TEDBench",
