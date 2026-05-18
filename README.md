@@ -1,3 +1,9 @@
+<p align="center">
+
+  <img src="./resources/tedbench_logo_transp.png" alt="TedBench logo" />
+
+</p>
+
 # TEDBench
 
 **TEDBench** is a large-scale, non-redundant benchmark for protein fold classification,
