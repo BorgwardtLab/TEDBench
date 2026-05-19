@@ -6,6 +6,9 @@
 
 # TEDBench
 
+[![arXiv](https://img.shields.io/badge/arXiv-2605.18552-b31b1b.svg)](https://arxiv.org/abs/2605.18552)&nbsp;
+[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-TEDBench-blue.svg)](https://huggingface.co/TEDBench)&nbsp;
+
 **TEDBench** is a large-scale, non-redundant benchmark for protein fold classification,
 together with **MiAE** (Masked Invariant Autoencoders), a self-supervised pretraining
 framework for protein structure representations.
