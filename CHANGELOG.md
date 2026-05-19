@@ -7,6 +7,18 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [0.2.0] — 2026-05-19
+
+### Added
+
+- Type annotations across all `tedbench/` Python files (`data`, `layer`,
+  `model`, `utils`, `lr_schedulers`). Uses plain `torch.Tensor` style
+  throughout; `py.typed` marker enables PEP 561 downstream type-checking.
+- README badges: CI status, PyPI version, Python versions, license.
+- Project logo.
+
+---
+
 ## [0.1.0] — 2026-05-13
 
 ### Added
