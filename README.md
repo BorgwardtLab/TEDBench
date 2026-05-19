@@ -1,6 +1,6 @@
 <p align="center">
 
-  <img src="./resources/tedbench_logo_transp.png" alt="TedBench logo" />
+  <img src="./resources/tedbench_logo_transp_trimmed.png" alt="TedBench logo" />
 
 </p>
 
